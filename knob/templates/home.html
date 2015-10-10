@@ -1,0 +1,321 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>Knob</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css.map' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.css.map' %}">
+    <!-- Custom Fonts -->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="{% static 'css/smart_wizard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/smart_wizard_vertical.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.steps.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/project.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-switch.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/codemirror.css' %}">
+  </head>
+
+  <body>
+
+
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Knob</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">Knob V1.0</a>
+        </div>
+
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                <span class="fa fa-wrench"></span> &nbsp;
+                <span>
+                    {{workers_count}} Running workers!
+                </span>
+                </h1>
+
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        {% if workers_count %}
+
+            <form id="wizard-form" action="#">
+                {% csrf_token %}
+                <div>
+                    <h3>Destinations</h3>
+                    <section>
+                        <div class="form-horizontal" style="padding-top: 10px;">
+                            <div class="form-group">
+                                <label for="username" class="control-label col-md-2">Username: *</label>
+
+                                <div class="col-md-9">
+                                    <input type="text" placeholder="Username" id="username" name="username"
+                                           class="form-control input input-md required">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password" class="control-label col-md-2">Password: *</label>
+
+                                <div class="col-md-9">
+                                    <input type="password" placeholder="Password" id="password" name="password"
+                                           class="form-control input input-md required">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ips" class="control-label col-md-2">IP Addresses: *</label>
+
+                                <div class="col-md-9">
+                                    <textarea id="ips" class="form-control required"  id="ips" rows="10"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <p>(*) Mandatory</p>
+
+                    </section>
+                    <h3>Commands</h3>
+                    <section>
+
+                            <div class="form-horizontal" style="padding-top: 10px;">
+                                <div class="form-group">
+                                    <label for="shell-type" class="control-label col-md-3">Full Python Shell: *</label>
+
+                                    <div class="col-md-9">
+
+                                        <input type="checkbox" name="shell-type" id="shell-type"> &nbsp;
+                                        <abbr title='Turning "Full Python Shell" button on gives you the ability to use Python to process the input and output of each of your commands, you are provided an object called device with a method called execute that returns the output of the command' class="initialism">What is this ?</abbr>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="commands" class="control-label col-md-3">Commands: *</label>
+
+
+                                    <div class="col-md-9">
+                                        <textarea id="commands" class="form-control required" id="commands" rows="10"
+                                                  ></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                        <p>(*) Mandatory</p>
+                    </section>
+                    <h3>Logs</h3>
+                    <section>
+                        <div class="form-horizontal" style="padding-top: 10px;">
+                            <div class="form-group">
+                                <label for="admin_email" class="control-label col-md-2">Admin email address: *</label>
+
+                                <div class="col-md-8">
+                                    <input type="email" id="admin_email" class="form-control email  required"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <p>(*) Mandatory</p>
+                    </section>
+                    <h3>Finish</h3>
+                    <section>
+                        <p>Your commands are about to be submitted ...</p>
+                    </section>
+                </div>
+            </form>
+
+        {% else %}
+            <div class="row">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3"><i class="fa fa-exclamation-circle fa-5x"></i></div>
+
+                            <div class="huge">No running workers!</div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'js/jquery-2.0.0.min.js' %}"></script>
+    <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.cookie.js' %}"></script>
+    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'js/additional-methods.min.js' %}"></script>
+    <script src="{% static 'js/jquery.steps.min.js' %}"></script>
+    <script src="{% static 'js/jquery.noty.packaged.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-switch.min.js' %}"></script>
+    <script src="{% static 'js/codemirror.js' %}"></script>
+    <script src="{% static 'js/python.js' %}"></script>
+
+    <script type="text/javascript">
+
+        function formatErrorMessage(response){
+            if (response.form_error) {
+                var msg = "";
+                $.each(response.message, function(key, value){
+                    msg += key + ": <br>";
+                    $.each(value, function(index, error){
+                        msg += error + "<br>";
+                    });
+                });
+                return msg;
+            } else {
+                return response.message;
+            }
+
+        }
+
+        $(document).ready(function() {
+
+            var cm = null;
+            var form = $("#wizard-form");
+            form.validate({
+                errorPlacement: function errorPlacement(error, element) { element.before(error); },
+                rules: {
+                    confirm: {
+                        equalTo: "#password"
+                    }
+                }
+            });
+            form.children("div").steps({
+                headerTag: "h3",
+                bodyTag: "section",
+                transitionEffect: "slideLeft",
+                onStepChanging: function (event, currentIndex, newIndex)
+                {
+                    form.validate().settings.ignore = ":disabled,:hidden";
+                    return form.valid();
+                },
+                onFinishing: function (event, currentIndex)
+                {
+                    form.validate().settings.ignore = ":disabled";
+                    return form.valid();
+                },
+                onFinished: function (event, currentIndex)
+                {
+                    if (cm) {
+                        var commands = cm.getValue();
+                    } else {
+                        var commands = $("#commands").val();
+                    }
+                    $.ajax({
+                      method: "POST",
+                      url: "{% url 'exec_command' %}",
+                      data: { username: $("#username").val(), password: $("#password").val(),  ips: $("#ips").val(),
+                              commands: commands, admin_email: $("#admin_email").val(), python_shell: $("#shell-type").bootstrapSwitch('state')
+                            },
+                        beforeSend: function(xhr, settings) {
+                            xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken') )
+
+                        }
+                    })
+                      .done(function(response) {
+                        if (response.success) {
+                            var validator = $( "#wizard-form" ).validate();
+                            var required = $(".required");
+                            required.removeClass("required");
+                            $("#steps-uid-0-t-0").click();
+                            required.addClass("required");
+                            $('#wizard-form').find("input[type=text], textarea").val("");
+
+                            noty({
+                                text: "Data submitted to our magic elves ... you'll be contacted soon :)",
+                                layout: 'topRight',
+                                type: 'success',
+                                theme: 'relax',
+                                closeWith: ['click'],
+                                dismissQueue: true,
+                                animation: {
+                                    open: 'animated flipInX',
+                                    close: 'animated flipOutX'
+                                }
+                            });
+                        } else {
+                            noty({
+                                text: formatErrorMessage(response),
+                                layout: 'topRight',
+                                type: 'error',
+                                theme: 'relax',
+                                closeWith: ['click'],
+                                dismissQueue: true,
+                                animation: {
+                                    open: 'animated flipInX',
+                                    close: 'animated flipOutX'
+                                }
+                            });
+
+                        }
+                      });
+                }
+            });
+
+            $("[name='shell-type']").bootstrapSwitch();
+
+            $("#shell-type").on('switchChange.bootstrapSwitch', function(event, state){
+
+                if ($(this).bootstrapSwitch('state')){
+                    cm = CodeMirror.fromTextArea(document.getElementById('commands'), {
+                        lineNumbers: true,
+                        mode: "python",
+                        theme: "default"
+
+                    });
+                } else {
+                    if (cm){
+                        cm.toTextArea();
+                    }
+
+                }
+
+            });
+        });
+
+
+    </script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  </body>
+</html>
