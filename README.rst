@@ -28,13 +28,15 @@ Quick start
 
 6. Visit http://127.0.0.1:8000/knob/ to start the configurations.
 
-## Current version
-* supports both Telnet and SSH
+Current Features
+-----------
+
+* Probes each IP for SSH and Telnet support and uses SSH if available, else falls back to Telnet.
 * A wizard that accepts common credentials, a list of IPs, and a list of commands to be executed on every device on the list.
 * Sends a log email to the system admin, indicating both the errors and success operations.
 * Providing an option to use a full Python environment. That makes it easy to perform more complex operations like doing regex operations and conditional decisions on the output.
 
-## Future work
-* Accepts CSV file(s) as input.
-
-* Better documentation :)
+Future work
+-----------
+* Ability to provide external files as input.
+* Ability to log custom output from remote operations.
