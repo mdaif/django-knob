@@ -12,7 +12,7 @@ setup(
     version='1.0',
     packages=['knob'],
     include_package_data=True,
-    license='GNU GENERAL PUBLIC LICENSE',  
+    license='OSI Approved',  # example license
     description='A Django reusable application that performs remote configurations on multiple devices, distributing the operations using python multiprocessing library.',
     long_description=README,
     author='Mohamed Daif',
@@ -22,7 +22,7 @@ setup(
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU GENERAL PUBLIC LICENSE',
+        'License :: OSI Approved :: GNU General Public License (GPL)',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP',
