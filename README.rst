@@ -4,6 +4,13 @@ knob
 
 A Django reusable application that performs remote configurations on multiple devices, distributing the operations using python multiprocessing library.
 
+============
+Installation
+============
+django-knob is available on PyPi and can be downloaded using pip
+
+    pip install django-knob
+
 
 Quick start
 -----------
