@@ -2,7 +2,7 @@
 knob
 =====
 
-A Django reusable application that performs remote configurations on multiple devices, distributing the operations using python multiprocessing library.
+A Django reusable application that performs remote configurations on multiple devices, distributing the operations using Celery.
 
 ============
 Installation
@@ -28,7 +28,9 @@ Quick start
 
 3. knob requires you to add email configurations to your settings.py, make sure you at least set the variables EMAIL_BACKEND, EMAIL_HOST, and EMAIL_PORT to proper values.
 
-4. Visit http://<domain>:<port>/knob/ to start the configurations.
+4. You will need to setup Celery environment as explained in http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html
+
+5. Visit http://<domain>:<port>/knob/ to start the configurations.
 
 Current Features
 -----------
@@ -53,7 +55,7 @@ How to Use
    :height: 100px
    :width: 200 px
    :scale: 50 %
-   
+
 3. Or, you can turn the "Full Python Shell" button on and use the power of python to process the output of the commands and take conditional actions based on some or all of the outputs. You are provided with an object called device that has a method called execute, it's how you interact with the remote device. You can use regex library, use loops, conditions, and so forth. Here is an example of changing the directory on a linux machine, and creating 10 subdirectories named using python's string interpolation.
 
 .. image:: https://cloud.githubusercontent.com/assets/2125212/10410646/8589616e-6f48-11e5-9eaa-7da8c354c691.png
@@ -74,7 +76,7 @@ How to Use
    :height: 100px
    :width: 200 px
    :scale: 50 %
-   
+
 Future work
 -----------
 * Ability to provide external files as input.

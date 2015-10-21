@@ -14,7 +14,7 @@ setup(
     packages=['knob'],
     include_package_data=True,
     license='OSI Approved',  # example license
-    description='A Django reusable application that performs remote configurations on multiple devices, distributing the operations using python multiprocessing library.',
+    description='A Django reusable application that performs remote configurations on multiple devices, distributing the operations using Celery.',
     long_description=README,
     author='Mohamed Daif',
     author_email='muhammad.daif@gmail.com',
