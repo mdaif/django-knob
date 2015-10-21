@@ -3,14 +3,16 @@ from django.views.generic import View
 from django.http import HttpResponse
 from .forms import TelnetInputForm
 from .tasks import configure_batch, email_admin
-from multiprocessing import cpu_count
-from .helpers import chunks
-from multiprocessing import Pool
-import logging
+from celery import chord
+import celery
 import json
-import math
 
 
+try:
+    stats = celery.current_app.control.inspect().stats()
+    NO_OF_WORKERS = stats[stats.keys()[0]]['pool']['max-concurrency']
+except KeyError:
+    NO_OF_WORKERS = None
 
 
 class HomePageView(TemplateView):
@@ -18,7 +20,7 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        context['workers_count'] = cpu_count()
+        context['workers_count'] = NO_OF_WORKERS
 
         return context
 
@@ -31,12 +33,12 @@ class CommandExecutionView(View):
                 json.dumps({'success': False, 'validation_error': True, 'message': form.errors, 'form_error': True}),
                 content_type="application/json", status=200)
 
-        ip_chunks = chunks(form.cleaned_data['ips'], cpu_count(), form.cleaned_data['commands'], form.cleaned_data['username'], form.cleaned_data['password'], form.cleaned_data['python_shell'])
+        params = [(ip, form.cleaned_data['commands'],
+                         form.cleaned_data['username'], form.cleaned_data['password'],
+                   form.cleaned_data['python_shell']) for ip in form.cleaned_data['ips']]
 
-        workers = Pool(5)
-        email_admin.email = form.cleaned_data['admin_email']  # monkey patching the emaiL_admin function to pass the admin's email parameter .. I know ugly as hell
-        email_admin.pool = workers
+        res = chord((configure_batch.s(*param) for param in params), email_admin.s(form.cleaned_data['admin_email']))
+        res.apply_async()
 
-        workers.map_async(configure_batch, ip_chunks, callback=email_admin)
-
-        return HttpResponse(json.dumps({'success': True}), content_type='application/json', status=200)
+        return HttpResponse(json.dumps({'success': True}),
+                            content_type='application/json', status=200)

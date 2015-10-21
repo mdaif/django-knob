@@ -254,6 +254,7 @@
                             required.removeClass("required");
                             $("#steps-uid-0-t-0").click();
                             required.addClass("required");
+                            $("#shell-type").bootstrapSwitch('toggleState');
                             $('#wizard-form').find("input[type=text], textarea").val("");
 
                             noty({
